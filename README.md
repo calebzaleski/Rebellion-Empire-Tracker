@@ -1,0 +1,1 @@
+This is a simple game tracker for the player playing as the Empire in the star wars game Rebellion. It will track your probe cards, troops and loytaly of each system. It will tell you which systems you still have to check and which regions are good, enjoy!
