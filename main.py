@@ -13,6 +13,58 @@ cursor = connected.cursor()
 selection = ""
 update_var = ""
 update_planet = ""
+def create_DB():
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS system (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL DEFAULT 'name me plz',
+    probe_card BOOL NOT NULL DEFAULT 0,
+    occupied BOOL NOT NULL DEFAULT 0,
+    loyalty TEXT NOT NULL DEFAULT 'Neutral',
+    region TEXT NOT NULL DEFAULT 'give me a region plz'
+    );
+""")
+def drop_DB():
+    cursor.execute("""drop table if exists system""")
+def load_DB():
+    cursor.execute("""
+        INSERT INTO system (name, region)
+        VALUES
+        ('Mon Calamari', 'Top Left'),
+        ('Yavin', 'Top Left'),
+        ('Saleucami', 'Top Left'),
+        ('Felucia', 'Top Left'),
+        ('Kessel', 'Top Middle'),
+        ('Nal Hutta', 'Top Middle'),
+        ('Toydaria', 'Top Middle'),
+        ('Bothawui', 'Top Middle'),
+        ('Tatooine', 'Top Right'),
+        ('Rodia', 'Top Right'),
+        ('Geonosis', 'Top Right'),
+        ('Ryloth', 'Top Right'),
+        ('Dathomir', 'Middle'),
+        ('Mandalore', 'Middle'),
+        ('Kashyyk', 'Middle'),
+        ('Malastare', 'Middle'),
+        ('Naboo', 'Middle Right'),
+        ('Sullust', 'Middle Right'),
+        ('Dagobah', 'Middle Right'),
+        ('Utapau', 'Middle Right'),
+        ('Mustafar', 'Bottom Right'),
+        ('Hoth', 'Bottom Right'),
+        ('Endor', 'Bottom Right'),
+        ('Corellia', 'Bottom Right'),
+        ('Bespin', 'Bottom Right'),
+        ('Corusant', 'Bottom Middle'),
+        ('Corellia', 'Bottom Middle'),
+        ('Cato Neimodia', 'Bottom Middle'),
+        ('Alderaan', 'Bottom Middle'),
+        ('Dantoine', 'Bottom Left'),
+        ('Mygeeto', 'Bottom Left'),
+        ('Ilum', 'Bottom Left'),
+        ('Ord Mantell', 'Bottom Left');    
+                   """)
+
 
 def showone(selection):
         cursor.execute("SELECT * FROM system WHERE lower(name) = lower(?)", (selection,))
@@ -121,7 +173,6 @@ def updateplanet(update_var, update_planet):
 
 #--------START MAIN USER INTERACTION----------#
 
-
 print("\nCurrent status: \n")
 showall()
 print("\nHello there, would you like to:")
@@ -130,6 +181,10 @@ while 1 == 1:
         print(" 1. List planet Status")
         print(" 2. Update Planet")
         print(" 3. Show all Planet")
+        print(" 4. Save")
+        print(" 5. Reset")
+
+
         userinput = input()
 
         if userinput == "1":
@@ -148,12 +203,29 @@ while 1 == 1:
             for update_planet in planets:
                 updateplanet(update_var, update_planet)
 
+
         elif userinput == "3":
             showall()
 
+        elif userinput == "4":
+            print("goodbye")
+            connected.commit()
+            connected.close()
+            break
+
+        elif userinput == "5":
+            print("Type 'reset' to confirm:")
+            userinput = input()
+            if str(userinput).lower() == "reset":
+                drop_DB()
+                create_DB()
+                load_DB()
+                print("Program Reset")
+            else:
+                print("Failed")
+
 #--------END MAIN USER INTERACTION----------#
 
-connected.commit()
-connected.close()
+
 
 
