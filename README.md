@@ -9,7 +9,7 @@ This is a simple game tracker for the player playing as the empire in the Star W
 # Install
 Requirement if you dont have python:
 ```
-brew link python3
+brew install python
 ```
 First:
 ```
